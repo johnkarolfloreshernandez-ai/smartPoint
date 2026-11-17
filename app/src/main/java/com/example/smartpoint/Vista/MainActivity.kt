@@ -1,5 +1,6 @@
 package com.example.smartpoint.Vista
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,7 +22,6 @@ import com.example.smartpoint.Modelo.dataCatalogoProductos
 import com.example.smartpoint.Modelo.dataCategoria
 import com.example.smartpoint.Presentador.clsProductosPresentador
 import com.example.smartpoint.R
-import kotlin.collections.emptyList
 
 class MainActivity : AppCompatActivity() {
 
@@ -113,6 +113,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun seleccionarProducto(producto: dataCatalogoProductos) {
-        Toast.makeText(this, "Ver detalle de: ${producto.nombre}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, activity_detalle_producto::class.java).apply {
+            putExtra("PRODUCTO_ID", producto.id)
+            putExtra("NOMBRE", producto.nombre)
+            putExtra("DESCRIPCION_CORTA", producto.descripcionCorta)
+            putExtra("ESPECIFICACIONES", producto.especificaciones)
+            putExtra("PRECIO", producto.precio)
+            putExtra("URL_IMAGEN_PRINCIPAL", producto.urlImagenPrincipal)
+        }
+        startActivity(intent)
     }
 }
