@@ -52,4 +52,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     // Para imágenes
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    // Corrutinas (requerido en punto 1.3 de la bitácora)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+
+    // Interceptor de OkHttp (muy útil para depurar respuestas JSON en Logcat)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }
