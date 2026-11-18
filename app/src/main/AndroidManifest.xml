@@ -28,6 +28,10 @@
             android:name=".Vista.activity_detalle_producto"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Vista.CarritoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

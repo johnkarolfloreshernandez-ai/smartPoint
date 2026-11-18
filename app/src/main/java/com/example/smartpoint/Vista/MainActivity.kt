@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recycleProductos: RecyclerView
     private lateinit var adapterCatalogoProductos: catalogoProducto
     private lateinit var edtBuscarProducto: AutoCompleteTextView
+    private lateinit var btnCarrito: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         spinnerCategorias = findViewById(R.id.spinnerCategorias)
         recycleProductos = findViewById(R.id.Rclr_View)
         edtBuscarProducto = findViewById(R.id.edtBuscarProducto)
+        btnCarrito = findViewById(R.id.btnCarrito)
 
         recycleProductos.layoutManager = GridLayoutManager(this, 2)
         adapterCatalogoProductos = catalogoProducto(this, emptyList())
@@ -56,6 +59,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun configurarListeners() {
+        btnCarrito.setOnClickListener {
+            val intent = Intent(this, CarritoActivity::class.java)
+            startActivity(intent)
+        }
+
         spinnerCategorias.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val textoBuscar = edtBuscarProducto.text.toString().trim()
