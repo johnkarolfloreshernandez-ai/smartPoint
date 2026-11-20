@@ -1,7 +1,10 @@
 package com.example.smartpoint.interfaceApi
 
 import com.example.smartpoint.Modelo.CarritoRequest
+import com.example.smartpoint.Modelo.LoginRequest
+import com.example.smartpoint.Modelo.RegistroUsuarioRequest
 import com.example.smartpoint.Modelo.RespuestaGeneral
+import com.example.smartpoint.Modelo.UsuarioResponse
 import com.example.smartpoint.Modelo.dataCarritoItem
 import com.example.smartpoint.Modelo.dataCatalogoProductos
 import com.example.smartpoint.Modelo.dataCategoria
@@ -25,5 +28,14 @@ interface ApiService {
     suspend fun obtenerCarrito(@Query("usuario_id") usuarioId: Int): List<dataCarritoItem>
     @POST("carrito.php")
     suspend fun agregarAlCarrito(@Body request: CarritoRequest): RespuestaGeneral
+
+    @POST("login.php")
+    suspend fun login(@Body request: LoginRequest): UsuarioResponse
+
+    @POST("registro.php")
+    suspend fun registrarUsuario(@Body request: RegistroUsuarioRequest): UsuarioResponse
+
+    @GET("perfil.php")
+    suspend fun obtenerPerfil(@Query("usuario_id") usuarioId: Int): UsuarioResponse
 
 }

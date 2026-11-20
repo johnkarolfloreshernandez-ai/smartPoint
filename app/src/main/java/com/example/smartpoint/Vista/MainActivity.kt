@@ -10,7 +10,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartpoint.Adaptador.catalogoProducto
+import com.example.smartpoint.Modelo.SesionManager
 import com.example.smartpoint.Modelo.dataCatalogoProductos
 import com.example.smartpoint.Modelo.dataCategoria
 import com.example.smartpoint.Presentador.clsProductosPresentador
@@ -32,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterCatalogoProductos: catalogoProducto
     private lateinit var edtBuscarProducto: AutoCompleteTextView
     private lateinit var btnCarrito: ImageView
+    private lateinit var navPerfil: LinearLayout
+    private lateinit var txtSaludoUsuario: TextView
+    private lateinit var sesionManager: SesionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +50,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        sesionManager = SesionManager(this)
+
         spinnerCategorias = findViewById(R.id.spinnerCategorias)
         recycleProductos = findViewById(R.id.Rclr_View)
         edtBuscarProducto = findViewById(R.id.edtBuscarProducto)
         btnCarrito = findViewById(R.id.btnCarrito)
+        navPerfil = findViewById(R.id.navPerfil)
+        txtSaludoUsuario = findViewById(R.id.txtSaludoUsuario)
 
         recycleProductos.layoutManager = GridLayoutManager(this, 2)
         adapterCatalogoProductos = catalogoProducto(this, emptyList())
@@ -58,10 +68,28 @@ class MainActivity : AppCompatActivity() {
         presenter.iniciar()
     }
 
+    override fun onResume() {
+        super.onResume()
+        txtSaludoUsuario.text = if (sesionManager.estaLogueado()) {
+            "¡Hola! ${sesionManager.obtenerUsuario()}"
+        } else {
+            "¡Hola! Usuario"
+        }
+    }
+
     private fun configurarListeners() {
         btnCarrito.setOnClickListener {
             val intent = Intent(this, CarritoActivity::class.java)
             startActivity(intent)
+        }
+
+        navPerfil.setOnClickListener {
+            if (sesionManager.estaLogueado()) {
+                startActivity(Intent(this, PerfilActivity::class.java))
+            } else {
+                Toast.makeText(this, "Inicia sesión para ver tu perfil", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
         }
 
         spinnerCategorias.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
