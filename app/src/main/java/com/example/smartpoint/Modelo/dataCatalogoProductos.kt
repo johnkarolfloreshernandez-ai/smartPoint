@@ -11,5 +11,6 @@ data class dataCatalogoProductos(
     @SerialName("descripcion_corta") val descripcionCorta: String = "",
     @SerialName("especificaciones") val especificaciones: String = "",
     @SerialName("precio") val precio: Double = 0.0,
+    @SerialName("stock") val stock: Int = 0,
     @SerialName("url_imagen_principal") val urlImagenPrincipal: String = ""
 )

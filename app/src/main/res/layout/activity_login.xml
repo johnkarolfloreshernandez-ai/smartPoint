@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="28dp">
+
+    <!-- LOGO SMART POINT -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="SP"
+        android:textColor="#052659"
+        android:textSize="48sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Smart "
+            android:textColor="#052659"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Point"
+            android:textColor="#1E88E5"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="¡Hola de nuevo!\nIngresa a tu cuenta"
+        android:textAlignment="center"
+        android:textColor="#64748B"
+        android:textSize="14sp" />
+
+    <!-- CAMPO USUARIO -->
+    <EditText
+        android:id="@+id/edtUsuarioLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:background="#F1F5F9"
+        android:hint="Usuario"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="#0F172A"
+        android:textSize="14sp" />
+
+    <!-- CAMPO CONTRASEÑA -->
+    <EditText
+        android:id="@+id/edtPasswordLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="#F1F5F9"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="#0F172A"
+        android:textSize="14sp" />
+
+    <!-- BOTÓN INICIAR SESIÓN -->
+    <Button
+        android:id="@+id/btnIniciarSesion"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="#1E88E5"
+        android:text="Iniciar sesión"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <!-- ENLACE A CREAR CUENTA -->
+    <TextView
+        android:id="@+id/txtIrCrearCuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
+        android:text="¿No tienes cuenta? Crear cuenta"
+        android:textColor="#1E88E5"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:background="#052659"
         android:paddingStart="16dp"
-        android:paddingTop="22dp"
+        android:paddingTop="18dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="22dp"
+        android:paddingBottom="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,14 +31,30 @@
             android:src="@android:drawable/ic_media_previous"
             app:tint="@android:color/white" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Carrito de Compras"
-            android:textColor="@android:color/white"
-            android:textSize="21sp"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carrito de Compras"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtUsuarioCarrito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Usuario: Invitado"
+                android:textColor="#BFDBFE"
+                android:textSize="13sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <!-- LISTA DE PRODUCTOS EN EL CARRITO -->
@@ -46,8 +62,8 @@
         android:id="@+id/rvProductosCarrito"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/cardResumenCarrito"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="14dp"
         app:cardElevation="4dp"
@@ -129,17 +145,16 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <!-- BOTÓN SOLO VISUAL (SIN ACCIÓN DE FINALIZAR COMPRA) -->
             <Button
                 android:id="@+id/btnFinalizarCompra"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="#1E88E5"
                 android:text="Finalizar compra"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

@@ -1,12 +1,10 @@
-package com.example.smartpoint.Modelo
+package com.example.smartpoint.Red
 
 import com.example.smartpoint.interfaceApi.ApiService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlin.getValue
-import kotlin.jvm.java
 
 object RetrofitCliente {
 

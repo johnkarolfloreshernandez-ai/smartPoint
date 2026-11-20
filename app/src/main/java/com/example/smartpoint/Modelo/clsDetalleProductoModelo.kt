@@ -1,5 +1,7 @@
 package com.example.smartpoint.Modelo
 
+import com.example.smartpoint.Red.RetrofitCliente
+
 class clsDetalleProductoModelo {
     suspend fun obtenerGaleria(productoId: Int): List<dataImagenProducto> {
         return RetrofitCliente.apiService.obtenerGaleriaProducto(productoId)

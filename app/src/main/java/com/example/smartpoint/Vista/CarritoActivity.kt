@@ -1,6 +1,8 @@
 package com.example.smartpoint.Vista
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -11,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartpoint.Adaptador.CarritoAdapter
+import com.example.smartpoint.Modelo.SesionManager
 import com.example.smartpoint.Modelo.dataCarritoItem
 import com.example.smartpoint.Presentador.clsCarritoPresentador
 import com.example.smartpoint.R
@@ -20,12 +23,12 @@ import java.util.Locale
 class CarritoActivity : AppCompatActivity() {
 
     private lateinit var presenter: clsCarritoPresentador
+    private lateinit var sesionManager: SesionManager
     private lateinit var rvProductosCarrito: RecyclerView
     private lateinit var adapterCarrito: CarritoAdapter
     private lateinit var txtSubtotal: TextView
     private lateinit var txtTotalFinal: TextView
-
-    private val usuarioId: Int = 1 // Usuario por defecto hasta conectar Login
+    private lateinit var txtUsuarioCarrito: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +41,47 @@ class CarritoActivity : AppCompatActivity() {
             insets
         }
 
+        sesionManager = SesionManager(this)
+        presenter = clsCarritoPresentador(this)
+
         val btnRegresar: ImageView = findViewById(R.id.btnRegresarCarrito)
+        val btnFinalizar: Button = findViewById(R.id.btnFinalizarCompra)
+        txtUsuarioCarrito = findViewById(R.id.txtUsuarioCarrito)
         rvProductosCarrito = findViewById(R.id.rvProductosCarrito)
         txtSubtotal = findViewById(R.id.txtSubtotalCarrito)
         txtTotalFinal = findViewById(R.id.txtTotalFinalCarrito)
 
         rvProductosCarrito.layoutManager = LinearLayoutManager(this)
-        adapterCarrito = CarritoAdapter(emptyList())
+        adapterCarrito = CarritoAdapter(emptyList()) { item ->
+            val usuarioId = if (sesionManager.estaLogueado()) sesionManager.obtenerId() else 1
+            presenter.eliminarProducto(item.idCarrito, usuarioId)
+        }
         rvProductosCarrito.adapter = adapterCarrito
 
         btnRegresar.setOnClickListener { finish() }
 
-        presenter = clsCarritoPresentador(this)
+        btnFinalizar.setOnClickListener {
+            if (!sesionManager.estaLogueado()) {
+                Toast.makeText(
+                    this,
+                    "Debes registrarte o iniciar sesión para finalizar tu compra",
+                    Toast.LENGTH_LONG
+                ).show()
+                startActivity(Intent(this, RegistroActivity::class.java))
+            } else {
+                presenter.procesarCompra(sesionManager.obtenerId())
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val usuarioId = if (sesionManager.estaLogueado()) sesionManager.obtenerId() else 1
+        txtUsuarioCarrito.text = if (sesionManager.estaLogueado()) {
+            "Cliente: ${sesionManager.obtenerUsuario()}"
+        } else {
+            "Cliente: Invitado (Inicia sesión para comprar)"
+        }
         presenter.cargarCarrito(usuarioId)
     }
 
@@ -64,6 +96,14 @@ class CarritoActivity : AppCompatActivity() {
         }
         txtSubtotal.text = "$${formatoMoneda.format(subtotal)}"
         txtTotalFinal.text = "$${formatoMoneda.format(totalFinal)}"
+    }
+
+    fun mostrarMensaje(mensaje: String) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    fun mostrarCompraExitosa(mensaje: String) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
     }
 
     fun mostrarError(mensaje: String) {

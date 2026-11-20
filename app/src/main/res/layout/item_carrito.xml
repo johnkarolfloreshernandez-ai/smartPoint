@@ -21,15 +21,15 @@
 
         <ImageView
             android:id="@+id/imgProductoCarrito"
-            android:layout_width="68dp"
-            android:layout_height="68dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:contentDescription="Producto en carrito"
             android:scaleType="fitCenter" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -45,6 +45,15 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/txtCantidadProductoCarrito"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Cantidad: 1"
+                android:textColor="#64748B"
+                android:textSize="12sp" />
+
+            <TextView
                 android:id="@+id/txtPrecioProductoCarrito"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,6 +63,15 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnEliminarItemCarrito"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eliminar producto"
+            android:src="@android:drawable/ic_menu_delete"
+            app:tint="#EF4444" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

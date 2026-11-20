@@ -36,15 +36,39 @@
                     android:layout_height="match_parent" />
             </FrameLayout>
 
-            <TextView
-                android:id="@+id/txtdetalleProducto"
+            <!-- NOMBRE DEL PRODUCTO + DISPONIBLE -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Nombre del producto"
-                android:textColor="#052659"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtdetalleProducto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre del producto"
+                    android:textColor="#052659"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtdetalleStock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="#E0F2FE"
+                    android:paddingStart="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="4dp"
+                    android:text="Disponible: 10"
+                    android:textColor="#0369A1"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/txtdetallePrecio"

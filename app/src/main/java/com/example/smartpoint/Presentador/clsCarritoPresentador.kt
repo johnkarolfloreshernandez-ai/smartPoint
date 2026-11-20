@@ -23,4 +23,36 @@ class clsCarritoPresentador(private val vista: CarritoActivity) {
             }
         }
     }
+
+    fun eliminarProducto(idCarrito: Int, usuarioId: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val res = modelo.eliminarItemCarrito(idCarrito)
+                if (res.exito) {
+                    vista.mostrarMensaje(res.mensaje)
+                    cargarCarrito(usuarioId)
+                } else {
+                    vista.mostrarError(res.mensaje)
+                }
+            } catch (e: Exception) {
+                vista.mostrarError("Error al eliminar producto: " + e.localizedMessage)
+            }
+        }
+    }
+
+    fun procesarCompra(usuarioId: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val res = modelo.finalizarCompra(usuarioId)
+                if (res.exito) {
+                    vista.mostrarCompraExitosa(res.mensaje)
+                    cargarCarrito(usuarioId)
+                } else {
+                    vista.mostrarError(res.mensaje)
+                }
+            } catch (e: Exception) {
+                vista.mostrarError("Error al finalizar compra: " + e.localizedMessage)
+            }
+        }
+    }
 }
