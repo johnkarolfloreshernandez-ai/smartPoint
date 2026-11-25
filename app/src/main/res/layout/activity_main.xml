@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,20 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/btnMenu"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_menu_sort_by_size"
-                app:tint="@android:color/white" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_toEndOf="@id/btnMenu"
                 android:orientation="vertical">
 
                 <TextView
@@ -65,6 +55,7 @@
                     android:text="Encuentra tus productos facilmente"
                     android:textColor="#D0E1F9"
                     android:textSize="12sp" />
+
             </LinearLayout>
 
             <ImageView
@@ -73,8 +64,9 @@
                 android:layout_height="32dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="@android:color/white" />
+                android:contentDescription="Carrito"
+                android:src="@drawable/carrito" />
+
         </RelativeLayout>
 
         <AutoCompleteTextView
@@ -92,9 +84,10 @@
             android:paddingEnd="16dp"
             android:textColor="#0A2540"
             android:textSize="14sp" />
+
     </LinearLayout>
 
-    <!-- TARJETA SPINNER (Completamente en el área blanca inferior) -->
+    <!-- TARJETA SPINNER -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardFiltro"
         android:layout_width="0dp"
@@ -145,7 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardFiltro" />
 
-    <!-- RECYCLERVIEW 2 COLUMNAS -->
+    <!-- RECYCLERVIEW -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Rclr_View"
         android:layout_width="0dp"
@@ -180,10 +173,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_compass"
-                app:tint="#1E88E5" />
+                android:id="@+id/imageView4"
+                android:layout_width="22dp"
+                android:layout_height="27dp"
+                android:contentDescription="Inicio"
+                app:srcCompat="@drawable/inicio" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -192,6 +186,7 @@
                 android:textColor="#1E88E5"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -203,10 +198,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#1E88E5" />
+                android:id="@+id/imageView2"
+                android:layout_width="20dp"
+                android:layout_height="19dp"
+                android:contentDescription="Perfil"
+                app:srcCompat="@drawable/perfil" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -214,6 +210,7 @@
                 android:text="Perfil"
                 android:textColor="#1E88E5"
                 android:textSize="12sp" />
+
         </LinearLayout>
     </LinearLayout>
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,36 +11,17 @@
     android:padding="28dp">
 
     <!-- LOGO SMART POINT -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="SP"
-        android:textColor="#052659"
-        android:textSize="48sp"
-        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="227dp"
+        android:layout_height="168dp"
+        app:srcCompat="@drawable/foto_logo" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Smart "
-            android:textColor="#052659"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Point"
-            android:textColor="#1E88E5"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        android:orientation="horizontal"/>
 
     <TextView
         android:layout_width="wrap_content"
