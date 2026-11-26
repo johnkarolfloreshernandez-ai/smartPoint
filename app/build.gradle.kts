@@ -21,9 +21,14 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            // Activa la ofuscación y optimización de código con R8
+            isMinifyEnabled = true
+            // Elimina recursos XML/imágenes sin usar para reducir peso del APK
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -58,4 +63,8 @@ dependencies {
 
     // Interceptor de OkHttp (muy útil para depurar respuestas JSON en Logcat)
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // Firebase BoM y Analytics
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }
