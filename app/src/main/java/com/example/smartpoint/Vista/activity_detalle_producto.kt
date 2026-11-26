@@ -2,20 +2,27 @@ package com.example.smartpoint.Vista
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.smartpoint.Adaptador.GaleriaProductoAdapter
 import com.example.smartpoint.Modelo.SesionManager
 import com.example.smartpoint.Presentador.clsDetalleProductoPresentador
 import com.example.smartpoint.R
+import com.example.smartpoint.Red.RetrofitCliente
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import java.net.URL
 import java.text.NumberFormat
 import java.util.Locale
-import kotlin.collections.emptyList
 
 class activity_detalle_producto : AppCompatActivity() {
 
@@ -23,8 +30,11 @@ class activity_detalle_producto : AppCompatActivity() {
     private lateinit var vpGaleria: ViewPager2
     private lateinit var adapterGaleria: GaleriaProductoAdapter
     private lateinit var sesionManager: SesionManager
+    private lateinit var txtStock: TextView
+    private lateinit var btnAgregar: Button
 
     private var productoId: Int = 0
+    private var stockActual: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +50,12 @@ class activity_detalle_producto : AppCompatActivity() {
         sesionManager = SesionManager(this)
 
         val txtNombre: TextView = findViewById(R.id.txtdetalleProducto)
-        val txtStock: TextView = findViewById(R.id.txtdetalleStock)
+        txtStock = findViewById(R.id.txtdetalleStock)
         val txtPrecio: TextView = findViewById(R.id.txtdetallePrecio)
         val txtDescripcion: TextView = findViewById(R.id.txtdetalleDescripcion)
         val txtDescripcionMas: TextView = findViewById(R.id.txtdetalleDescripcionMas)
-        val btnAgregar: Button = findViewById(R.id.btnAgregarCarrito)
+        btnAgregar = findViewById(R.id.btnAgregarCarrito)
+        val btnRegresar: ImageButton = findViewById(R.id.btnRegresarDetalle)
 
         vpGaleria = findViewById(R.id.vpGaleria)
 
@@ -53,7 +64,7 @@ class activity_detalle_producto : AppCompatActivity() {
         val descripcion = intent.getStringExtra("DESCRIPCION_CORTA") ?: ""
         val especificaciones = intent.getStringExtra("ESPECIFICACIONES") ?: ""
         val precio = intent.getDoubleExtra("PRECIO", 0.0)
-        val stock = intent.getIntExtra("STOCK", 0)
+        stockActual = intent.getIntExtra("STOCK", 0)
         val urlPrincipal = intent.getStringExtra("URL_IMAGEN_PRINCIPAL") ?: ""
 
         val formatoMoneda = NumberFormat.getNumberInstance(Locale.US).apply {
@@ -62,14 +73,13 @@ class activity_detalle_producto : AppCompatActivity() {
         }
 
         txtNombre.text = nombre
-        txtStock.text = "Disponible: $stock"
         txtPrecio.text = "MXN$${formatoMoneda.format(precio)}"
         txtDescripcion.text = descripcion
         txtDescripcionMas.text = especificaciones
+        actualizarVistaStock(stockActual)
 
-        if (stock <= 0) {
-            btnAgregar.isEnabled = false
-            btnAgregar.text = "Agotado"
+        btnRegresar.setOnClickListener {
+            finish()
         }
 
         adapterGaleria = GaleriaProductoAdapter(emptyList())
@@ -79,8 +89,53 @@ class activity_detalle_producto : AppCompatActivity() {
         presenter.cargarGaleria(productoId, urlPrincipal)
 
         btnAgregar.setOnClickListener {
+            if (stockActual <= 0) {
+                mostrarMensaje("Producto agotado")
+                return@setOnClickListener
+            }
             val usuarioActualId = if (sesionManager.estaLogueado()) sesionManager.obtenerId() else 1
             presenter.agregarAlCarrito(usuarioActualId, productoId)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (productoId > 0) {
+            refrescarStockDesdeServidor()
+        }
+    }
+
+    private fun refrescarStockDesdeServidor() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val urlConsulta = "${RetrofitCliente.BASE_URL}obtener_productos.php?categoria_id=1"
+                val respuesta = URL(urlConsulta).readText()
+                val arreglo = JSONArray(respuesta)
+                for (i in 0 until arreglo.length()) {
+                    val obj = arreglo.getJSONObject(i)
+                    if (obj.getInt("id") == productoId) {
+                        val nuevoStock = obj.getInt("stock")
+                        withContext(Dispatchers.Main) {
+                            stockActual = nuevoStock
+                            actualizarVistaStock(stockActual)
+                        }
+                        break
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun actualizarVistaStock(stock: Int) {
+        txtStock.text = "Disponible: $stock"
+        if (stock <= 0) {
+            btnAgregar.isEnabled = false
+            btnAgregar.text = "Agotado"
+        } else {
+            btnAgregar.isEnabled = true
+            btnAgregar.text = "Agregar al carrito"
         }
     }
 

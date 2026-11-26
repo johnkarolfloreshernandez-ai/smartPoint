@@ -34,6 +34,18 @@
                     android:id="@+id/vpGaleria"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <ImageButton
+                    android:id="@+id/btnRegresarDetalle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="top|start"
+                    android:layout_margin="8dp"
+                    android:background="#E0F2FE"
+                    android:contentDescription="Regresar"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_revert"
+                    app:tint="#052659" />
             </FrameLayout>
 
             <!-- NOMBRE DEL PRODUCTO + DISPONIBLE -->

@@ -42,8 +42,23 @@ class RegistroActivity : AppCompatActivity() {
         val txtVolver: TextView = findViewById(R.id.txtVolverLogin)
 
         btnCrear.setOnClickListener {
-            presenter.registrarUsuario(usuario = edtUsuario.text.toString().trim(), correo = edtCorreo.text.toString().trim(), telefono = edtTelefono.text.toString().trim(), password = edtPassword.text.toString().trim(), confirmarPassword = edtConfirmar.text.toString().trim(), onExito =
-                { res ->
+            if (!validarFormulario(edtUsuario, edtCorreo, edtTelefono, edtPassword, edtConfirmar)) {
+                return@setOnClickListener
+            }
+
+            val usuario = edtUsuario.text.toString().trim()
+            val correo = edtCorreo.text.toString().trim()
+            val telefono = edtTelefono.text.toString().trim()
+            val password = edtPassword.text.toString().trim()
+            val confirmarPassword = edtConfirmar.text.toString().trim()
+
+            presenter.registrarUsuario(
+                usuario = usuario,
+                correo = correo,
+                telefono = telefono,
+                password = password,
+                confirmarPassword = confirmarPassword,
+                onExito = { res ->
                     sesionManager.guardarSesion(
                         id = res.id,
                         usuario = res.usuario,
@@ -63,5 +78,88 @@ class RegistroActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+    }
+
+    private fun validarFormulario(
+        edtUsuario: EditText,
+        edtCorreo: EditText,
+        edtTelefono: EditText,
+        edtPassword: EditText,
+        edtConfirmar: EditText
+    ): Boolean {
+        val usuario = edtUsuario.text.toString().trim()
+        val correo = edtCorreo.text.toString().trim()
+        val telefono = edtTelefono.text.toString().trim()
+        val password = edtPassword.text.toString().trim()
+        val confirmar = edtConfirmar.text.toString().trim()
+
+        // 1. Usuario: no vacío y debe contener letras (no solo números)
+        val regexUsuario = Regex("^(?=.*[a-zA-ZáéíóúÁÉÍÓÚñÑ])[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_\\s]{3,30}$")
+        if (usuario.isEmpty()) {
+            edtUsuario.error = "Ingresa un nombre de usuario"
+            edtUsuario.requestFocus()
+            return false
+        }
+        if (!regexUsuario.matches(usuario)) {
+            edtUsuario.error = "El usuario debe incluir letras (mínimo 3 caracteres)"
+            edtUsuario.requestFocus()
+            return false
+        }
+
+        // 2. Correo: no vacío, solo minúsculas, formato válido con @ y dominio
+        val regexCorreo = Regex("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")
+        if (correo.isEmpty()) {
+            edtCorreo.error = "Ingresa un correo electrónico"
+            edtCorreo.requestFocus()
+            return false
+        }
+        if (correo != correo.lowercase()) {
+            edtCorreo.error = "El correo debe estar en minúsculas"
+            edtCorreo.requestFocus()
+            return false
+        }
+        if (!regexCorreo.matches(correo)) {
+            edtCorreo.error = "Ingresa un correo válido (ejemplo@dominio.com)"
+            edtCorreo.requestFocus()
+            return false
+        }
+
+        // 3. Teléfono: no vacío y exactamente 10 dígitos
+        if (telefono.isEmpty()) {
+            edtTelefono.error = "Ingresa un número de teléfono"
+            edtTelefono.requestFocus()
+            return false
+        }
+        if (!telefono.matches(Regex("^\\d{10}$"))) {
+            edtTelefono.error = "El teléfono debe tener exactamente 10 dígitos"
+            edtTelefono.requestFocus()
+            return false
+        }
+
+        // 4. Contraseña: no vacía y mínimo 6 caracteres
+        if (password.isEmpty()) {
+            edtPassword.error = "Ingresa una contraseña"
+            edtPassword.requestFocus()
+            return false
+        }
+        if (password.length < 6) {
+            edtPassword.error = "La contraseña debe tener al menos 6 caracteres"
+            edtPassword.requestFocus()
+            return false
+        }
+
+        // 5. Confirmar contraseña: no vacía y coincidente
+        if (confirmar.isEmpty()) {
+            edtConfirmar.error = "Confirma tu contraseña"
+            edtConfirmar.requestFocus()
+            return false
+        }
+        if (password != confirmar) {
+            edtConfirmar.error = "Las contraseñas no coinciden"
+            edtConfirmar.requestFocus()
+            return false
+        }
+
+        return true
     }
 }
