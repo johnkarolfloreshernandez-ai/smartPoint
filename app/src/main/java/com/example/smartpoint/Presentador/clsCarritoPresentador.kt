@@ -16,8 +16,13 @@ class clsCarritoPresentador(private val vista: CarritoActivity) {
                 val items = modelo.obtenerCarrito(usuarioId)
                 vista.mostrarProductosCarrito(items)
 
-                val total = items.sumOf { it.precio * it.cantidad }
-                vista.mostrarTotales(subtotal = total, totalFinal = total)
+                val subtotalUnitario = items.sumOf { it.precio }
+                val totalMultiplicado = items.sumOf { it.precio * it.cantidad }
+
+                vista.mostrarTotales(
+                    subtotal = subtotalUnitario,
+                    totalFinal = totalMultiplicado
+                )
             } catch (e: Exception) {
                 vista.mostrarError("Error al cargar carrito: " + e.localizedMessage)
             }
